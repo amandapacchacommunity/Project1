@@ -1,170 +1,215 @@
-# Project1 — Urban Education & Cultural Analytics
+Urban Education & Mobility Analytics Dashboard
 
-This project contains synthetic datasets and analysis exploring trends in higher education enrollment, student mobility, teacher compliance onboarding, and museum visitor activity in major U.S. cities.
+A data analytics dashboard exploring patterns in urban education, student mobility, teacher onboarding performance, and museum engagement across major U.S. cities.
 
-The datasets were generated for analytics practice, visualization, and portfolio development.
+This project demonstrates how data analysis can support insights into education systems and cultural participation using interactive visualizations and summary metrics.
 
----
-## Dashboard
+Project Goal
 
-An interactive analytics dashboard is included in this repository.
+The goal of this project is to analyze urban education and engagement trends across cities and demonstrate core data analytics skills including:
 
-Open `index.html` to view the dashboard.
+Data cleaning and preparation
 
-It includes:
-- Museum visitor analytics
-- Teacher onboarding compliance
-- NYC enrollment distribution
-- Chicago student movement trends
+Exploratory data analysis
 
-  ## Live Dashboard
+Data visualization
 
-View the interactive analytics dashboard:
+Trend identification
 
-https://amandapacchacommunity.github.io/Project1/dashboard/index.html
+Insight generation
 
-# Datasets
+Business-style recommendations
 
-## NYC Higher Education Enrollment
+Key analytical objectives include:
 
-Tracks student enrollment across colleges in New York City over a five-year period.
+• Understanding student enrollment distribution across NYC boroughs
+• Analyzing seasonal patterns in student mobility in Chicago
+• Evaluating teacher onboarding compliance performance
+• Comparing museum attendance between cities
 
-Fields include:
+Dashboard Overview
 
-* institution
-* borough
-* neighborhood
-* academic term
-* program
-* modality
-* credits attempted
-* student age
+The interactive dashboard highlights several key metrics and trends.
 
-Purpose:
+Key Metrics
+Metric	Description
+Total Enrollment	Student enrollment across NYC boroughs
+Student Movement	Monthly student transfers across schools
+Teacher Onboarding	Completion rate of teacher compliance processes
+Museum Attendance	Total museum visitors by city
+Key Insights
 
-* analyze enrollment distribution
-* identify borough-level education patterns
-* explore program popularity
+The dashboard reveals several patterns in the simulated datasets:
 
----
+• Manhattan shows the highest student enrollment (~7,000 students).
+• Student mobility peaks during late spring, suggesting transfer activity before summer.
+• Teacher onboarding completion is approximately 65%, with about 35% delayed or escalated.
+• Museum attendance in NYC is roughly 15–18% higher than Chicago, indicating stronger cultural engagement or tourism volume.
 
-## Chicago Student Population Movement
+Visual Analysis
 
-Geospatial dataset showing movement of student populations across Chicago neighborhoods.
+The dashboard includes several analytical visualizations.
 
-Fields include:
+Museum Attendance Comparison
 
-* origin neighborhood
-* destination neighborhood
-* latitude / longitude coordinates
-* year and month
-* number of students moving
+Compares visitor volume between NYC and Chicago museums.
 
-Purpose:
+Insight:
+NYC museums receive approximately 18% more visitors than Chicago.
 
-* create geographic heatmaps
-* analyze student relocation trends
-* study neighborhood mobility patterns
+Teacher Compliance Completion Analysis
 
----
+Displays the distribution of teacher onboarding statuses.
 
-## Chicago Teacher Compliance Onboarding
+Categories include:
 
-Measures how quickly teachers complete compliance training after being hired at a college.
+Completed
 
-Fields include:
+Delayed
 
-* department
-* training type
-* days to completion
-* compliance deadline
-* status (completed, late, escalated)
+Escalated
 
-Purpose:
+This helps evaluate onboarding efficiency.
 
-* HR analytics
-* compliance monitoring
-* onboarding efficiency analysis
+Enrollment Distribution by Borough
 
----
+Example distribution:
 
-## Museum Visitors — NYC & Chicago
+Borough	Enrollment	% of Total
+Manhattan	7000	23%
+Brooklyn	6500	21%
+Queens	6200	20%
 
-Tracks visitor attendance and revenue trends for museums in both cities.
+This type of analysis helps identify where resources or capacity may be needed.
 
-Fields include:
+Student Mobility Trend
 
-* city
-* museum name
-* visitor type
-* party size
-* ticket revenue
-* visit date
+Monthly movement data highlights seasonal patterns in school transfers.
 
-Purpose:
+Insight:
 
-* tourism analytics
-* attendance pattern analysis
-* revenue trend exploration
+Peak student movement occurs in late spring, likely due to school transfers before summer break.
 
----
+Dataset Overview
 
-# Example Analysis
+This project integrates several simulated datasets to represent real-world analytical scenarios.
 
-Example Python code used to analyze museum visitors by city:
+Datasets include:
 
-```python
-import pandas as pd
-import matplotlib.pyplot as plt
+• NYC Higher Education Enrollment dataset (~30,000 records)
+• Chicago Student Mobility dataset
+• Teacher onboarding and compliance records
+• Museum attendance estimates across cities
 
-df = pd.read_csv("museum_visitors_nyc_chicago_5y_30000.csv")
+These datasets were aggregated to illustrate trends in enrollment distribution, staffing readiness, mobility patterns, and cultural engagement.
 
-visitors = df.groupby("city")["party_size"].sum()
+Data Preparation
 
-visitors.plot(kind="bar")
+Several data preparation steps were performed before analysis.
 
-plt.title("Museum Visitors by City")
-plt.ylabel("Total Visitors")
+Examples include:
 
-plt.show()
-```
+Removing duplicate enrollment records
 
----
+Standardizing borough and city names
 
-# Project Structure
+Aggregating monthly student movement totals
 
-```
-Project1
+Calculating onboarding completion rates
+
+Preparing summary metrics for dashboard KPIs
+
+These steps reflect common data cleaning and preparation tasks performed by data analysts.
+
+Interactive Filters
+
+The dashboard includes filters that allow users to explore the data across multiple dimensions.
+
+Available filters include:
+
+Year
+City
+Borough
+School Type
+
+Example selections:
+
+Year: 2022 | 2023 | 2024
+City: NYC | Chicago
+
+These filters allow deeper exploration of patterns within the datasets.
+
+Recommendations
+
+Based on the analysis, several potential actions can be considered:
+
+Improve teacher onboarding monitoring
+Earlier compliance tracking may reduce onboarding delays.
+
+Investigate borough enrollment differences
+Lower enrollment in Queens compared to Manhattan may warrant further study.
+
+Prepare schools for peak transfer periods
+Late spring mobility spikes suggest staffing and resource planning needs.
+
+Increase museum outreach in Chicago
+Chicago museums may benefit from stronger marketing or educational partnerships.
+
+Project Structure
+repository
 │
-├── data
-│   ├── nyc_higher_education_enrollment_5y_30000.csv
-│   ├── chicago_student_population_heatmap_movements_5y_30000.csv
-│   ├── chicago_college_teacher_onboarding_compliance_5y_30000.csv
-│   └── museum_visitors_nyc_chicago_5y_30000.csv
+├── dashboard
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
+│
+├── analysis
 │
 ├── notebooks
-│   └── museum_visitor_by_city.py
+│   └── project1_analysis.ipynb
 │
-└── README.md
-```
+├── city_analytics_datasets
+│
+├── images
+│
+├── README.md
+└── data_dictionary.md
+Technologies Used
 
----
+This project uses simple web technologies to build an interactive analytics dashboard.
 
-# Tools Used
+HTML
 
-* Python
-* pandas
-* matplotlib
-* GitHub
+CSS
 
----
+JavaScript
 
-# Dataset Size
+Chart.js
 
-Each dataset contains approximately **30,000 records**.
+Jupyter Notebook (for exploration)
 
----
+Synthetic datasets for analysis
 
-# Disclaimer
+Synthetic Data Disclaimer
 
-All data in this repository is **synthetic and generated for educational and analytics practice purposes**.
+The datasets used in this project are synthetic and generated for educational and portfolio demonstration purposes.
+
+While the data structure and trends are designed to resemble realistic analytical scenarios, the figures presented in this dashboard do not represent official statistics or real institutional data.
+
+What This Project Demonstrates
+
+This project highlights several core skills expected from data analysts:
+
+✔ Data cleaning and preparation
+✔ Data visualization and dashboard design
+✔ Trend identification and pattern recognition
+✔ Analytical storytelling
+✔ Insight generation and recommendations
+
+The goal is to demonstrate how data can be used to support decision-making in education and cultural engagement contexts.
+
+Author
+
+Amanda Paccha
+
+Data analytics portfolio project exploring urban education and mobility patterns.
