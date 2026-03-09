@@ -32,3 +32,6 @@ Measures how quickly teachers complete compliance training after hiring.
 Used for:
 
 * HR analytics
+
+Insight:
+NYC museums have higher total attendance compared to Chicago in the dataset.
