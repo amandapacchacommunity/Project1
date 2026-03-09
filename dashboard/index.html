@@ -1,312 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Project1 Analytics Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    * { box-sizing: border-box; }
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f7fb;
-      color: #1f2937;
-    }
+<script>
+const museumVisitorsCtx = document.getElementById("museumVisitorsChart");
+const onboardingStatusCtx = document.getElementById("onboardingStatusChart");
+const enrollmentCtx = document.getElementById("enrollmentChart");
+const movementTrendCtx = document.getElementById("movementTrendChart");
 
-    .topbar {
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: white;
-      padding: 32px 24px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-    }
-
-    .topbar h1 {
-      margin: 0 0 8px 0;
-      font-size: 2rem;
-    }
-
-    .topbar p {
-      margin: 0;
-      color: #cbd5e1;
-    }
-
-    .dashboard {
-      max-width: 1300px;
-      margin: 24px auto;
-      padding: 0 20px 40px;
-    }
-
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-      margin-bottom: 22px;
-    }
-
-    .chart-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
-    }
-
-    .kpi h3 {
-      margin: 0 0 10px;
-      font-size: 0.95rem;
-      color: #475569;
-    }
-
-    .kpi-value {
-      margin: 0;
-      font-size: 2rem;
-      font-weight: bold;
-      color: #0f172a;
-    }
-
-    .kpi span {
-      display: inline-block;
-      margin-top: 8px;
-      font-size: 0.9rem;
-      color: #64748b;
-    }
-
-    .card-header {
-      margin-bottom: 16px;
-    }
-
-    .card-header h2 {
-      margin: 0 0 6px 0;
-      font-size: 1.15rem;
-    }
-
-    .card-header p {
-      margin: 0;
-      color: #64748b;
-      font-size: 0.92rem;
-    }
-
-    .chart-card {
-      min-height: 360px;
-    }
-
-    .wide {
-      grid-column: span 2;
-    }
-
-    .table-section {
-      margin-top: 18px;
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      text-align: left;
-      padding: 12px 10px;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    th {
-      background: #f8fafc;
-      color: #334155;
-      font-size: 0.92rem;
-    }
-
-    td {
-      font-size: 0.95rem;
-    }
-
-    canvas {
-      width: 100% !important;
-      height: 280px !important;
-      display: block;
-    }
-
-    @media (max-width: 900px) {
-      .chart-grid {
-        grid-template-columns: 1fr;
+new Chart(museumVisitorsCtx, {
+  type: "bar",
+  data: {
+    labels: ["NYC", "Chicago"],
+    datasets: [
+      {
+        label: "Total Visitors",
+        data: [95200, 73150],
+        backgroundColor: ["#60a5fa", "#93c5fd"],
+        borderWidth: 1
       }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false }
+    }
+  }
+});
 
-      .wide {
-        grid-column: span 1;
+new Chart(onboardingStatusCtx, {
+  type: "doughnut",
+  data: {
+    labels: ["Completed", "Late", "Escalated"],
+    datasets: [
+      {
+        data: [68, 22, 10],
+        backgroundColor: ["#3b82f6", "#f59e0b", "#ef4444"],
+        borderColor: "#ffffff",
+        borderWidth: 2
       }
-
-      .topbar h1 {
-        font-size: 1.5rem;
+    ]
+  },
+  options: {
+    cutout: "60%",
+    responsive: true,
+    layout: {
+      padding: 10
+    },
+    plugins: {
+      legend: {
+        position: "top",
+        align: "center",
+        labels: {
+          boxWidth: 12,
+          boxHeight: 12,
+          padding: 14,
+          usePointStyle: true,
+          pointStyle: "circle",
+          font: {
+            size: 12,
+            family: "Arial"
+          }
+        }
       }
     }
-  </style>
-</head>
-<body>
-  <header class="topbar">
-    <div>
-      <h1>Project1 Analytics Dashboard</h1>
-      <p>Urban Education, Mobility, Compliance, and Museum Insights</p>
-    </div>
-  </header>
+  }
+});
 
-  <main class="dashboard">
-    <section class="kpi-grid">
-      <div class="card kpi">
-        <h3>Total Enrollment Records</h3>
-        <p class="kpi-value">30,000</p>
-        <span>NYC higher education dataset</span>
-      </div>
-
-      <div class="card kpi">
-        <h3>Total Student Moves</h3>
-        <p class="kpi-value">30,000</p>
-        <span>Chicago mobility events</span>
-      </div>
-
-      <div class="card kpi">
-        <h3>Avg Onboarding Days</h3>
-        <p class="kpi-value">18.4</p>
-        <span>Teacher compliance completion</span>
-      </div>
-
-      <div class="card kpi">
-        <h3>Total Museum Revenue</h3>
-        <p class="kpi-value">$2.8M</p>
-        <span>NYC + Chicago synthetic estimate</span>
-      </div>
-    </section>
-
-    <section class="chart-grid">
-      <div class="card chart-card">
-        <div class="card-header">
-          <h2>Museum Visitors by City</h2>
-          <p>Attendance comparison</p>
-        </div>
-        <canvas id="museumVisitorsChart"></canvas>
-      </div>
-
-      <div class="card chart-card">
-        <div class="card-header">
-          <h2>Teacher Onboarding Status</h2>
-          <p>Compliance completion overview</p>
-        </div>
-        <canvas id="onboardingStatusChart"></canvas>
-      </div>
-
-      <div class="card chart-card wide">
-        <div class="card-header">
-          <h2>NYC Enrollment by Borough</h2>
-          <p>Distribution of student records</p>
-        </div>
-        <canvas id="enrollmentChart"></canvas>
-      </div>
-
-      <div class="card chart-card wide">
-        <div class="card-header">
-          <h2>Chicago Student Movement Trend</h2>
-          <p>Monthly movement volume across neighborhoods</p>
-        </div>
-        <canvas id="movementTrendChart"></canvas>
-      </div>
-    </section>
-
-    <section class="table-section">
-      <div class="card">
-        <div class="card-header">
-          <h2>Neighborhood Movement Snapshot</h2>
-          <p>Top routes by synthetic student movement</p>
-        </div>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Origin</th>
-                <th>Destination</th>
-                <th>Students Moved</th>
-                <th>Year</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Hyde Park</td><td>Loop</td><td>385</td><td>2025</td></tr>
-              <tr><td>Pilsen</td><td>Lakeview</td><td>342</td><td>2024</td></tr>
-              <tr><td>Austin</td><td>Rogers Park</td><td>319</td><td>2025</td></tr>
-              <tr><td>South Shore</td><td>Hyde Park</td><td>301</td><td>2023</td></tr>
-              <tr><td>Englewood</td><td>Loop</td><td>294</td><td>2024</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    new Chart(document.getElementById("museumVisitorsChart"), {
-      type: "bar",
-      data: {
-        labels: ["NYC", "Chicago"],
-        datasets: [{
-          label: "Total Visitors",
-          data: [95200, 73150],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } }
+new Chart(enrollmentCtx, {
+  type: "bar",
+  data: {
+    labels: ["Manhattan", "Brooklyn", "Queens", "Bronx", "Staten Island"],
+    datasets: [
+      {
+        label: "Enrollment Records",
+        data: [6900, 6400, 6100, 5600, 5000],
+        backgroundColor: "#7dd3fc",
+        borderWidth: 1
       }
-    });
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false }
+    }
+  }
+});
 
-    new Chart(document.getElementById("onboardingStatusChart"), {
-      type: "doughnut",
-      data: {
-        labels: ["Completed", "Late", "Escalated"],
-        datasets: [{
-          data: [68, 22, 10]
-        }]
-      },
-      options: { responsive: true }
-    });
-
-    new Chart(document.getElementById("enrollmentChart"), {
-      type: "bar",
-      data: {
-        labels: ["Manhattan", "Brooklyn", "Queens", "Bronx", "Staten Island"],
-        datasets: [{
-          label: "Enrollment Records",
-          data: [6900, 6400, 6100, 5600, 5000],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } }
+new Chart(movementTrendCtx, {
+  type: "line",
+  data: {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    datasets: [
+      {
+        label: "Students Moved",
+        data: [1800, 1950, 2100, 2250, 2400, 2550, 2480, 2380, 2210, 2140, 2050, 1990],
+        borderColor: "#2563eb",
+        backgroundColor: "#93c5fd",
+        fill: false,
+        tension: 0.3
       }
-    });
-
-    new Chart(document.getElementById("movementTrendChart"), {
-      type: "line",
-      data: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-          label: "Students Moved",
-          data: [1800, 1950, 2100, 2250, 2400, 2550, 2480, 2380, 2210, 2140, 2050, 1990],
-          fill: false,
-          tension: 0.3
-        }]
-      },
-      options: { responsive: true }
-    });
-  </script>
+    ]
+  },
+  options: {
+    responsive: true
+  }
+});
+</script>
 </body>
 </html>
