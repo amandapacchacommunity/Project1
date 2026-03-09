@@ -6,6 +6,8 @@
   --border: #e2e8f0;
   --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
   --radius: 18px;
+  --hero-start: #0f172a;
+  --hero-end: #1d4ed8;
 }
 
 * {
@@ -25,8 +27,8 @@ body {
 
 .hero {
   padding: 48px 24px 24px;
-  background: linear-gradient(135deg, #0f172a, #1d4ed8);
-  color: #fff;
+  background: linear-gradient(135deg, var(--hero-start), var(--hero-end));
+  color: #ffffff;
 }
 
 .hero-text {
@@ -35,11 +37,11 @@ body {
 }
 
 .eyebrow {
+  margin: 0 0 10px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 12px;
   opacity: 0.85;
-  margin-bottom: 10px;
 }
 
 .hero h1 {
@@ -53,6 +55,7 @@ body {
   max-width: 780px;
   color: rgba(255, 255, 255, 0.92);
   font-size: 1rem;
+  line-height: 1.6;
 }
 
 .container {
@@ -120,8 +123,7 @@ body {
 }
 
 .overview-item h3 {
-  margin-top: 0;
-  margin-bottom: 8px;
+  margin: 0 0 8px;
   font-size: 1rem;
 }
 
@@ -147,11 +149,13 @@ body {
 }
 
 .filter-group select {
+  width: 100%;
   padding: 12px 14px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: #fff;
+  background: #ffffff;
   font-size: 0.95rem;
+  color: var(--text);
 }
 
 .kpi-grid {
@@ -283,6 +287,8 @@ th {
 
 canvas {
   width: 100% !important;
+  max-width: 100%;
+  height: auto !important;
   max-height: 320px;
 }
 
