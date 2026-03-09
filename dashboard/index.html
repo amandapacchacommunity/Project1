@@ -14,17 +14,17 @@
         <p class="eyebrow">Data Analyst Portfolio Project</p>
         <h1>Urban Education & Mobility Analytics Dashboard</h1>
         <p class="hero-subtitle">
-          A comparative analysis of education, mobility, onboarding, and museum attendance trends
-          across NYC and Chicago.
+          Comparative analysis of enrollment, student mobility, teacher compliance,
+          and museum attendance trends across NYC and Chicago.
         </p>
       </div>
     </header>
 
     <main class="container">
-      <!-- Project Goal -->
       <section class="card section-block">
         <div class="section-header">
           <h2>Project Goal</h2>
+          <p>This project demonstrates analytical storytelling by combining education, mobility, onboarding, and cultural engagement metrics.</p>
         </div>
         <div class="goal-grid">
           <div class="goal-item">Understand student enrollment distribution in NYC</div>
@@ -34,11 +34,10 @@
         </div>
       </section>
 
-      <!-- Filters -->
       <section class="card section-block">
         <div class="section-header">
           <h2>Interactive Filters</h2>
-          <p>Use filters to explore the dashboard by year, city, borough, and school type.</p>
+          <p>Explore the dashboard by year, city, borough, and school type.</p>
         </div>
 
         <div class="filters-grid">
@@ -85,34 +84,32 @@
         </div>
       </section>
 
-      <!-- Dataset Overview -->
       <section class="card section-block">
         <div class="section-header">
           <h2>Dataset Overview</h2>
-          <p>This dashboard combines multiple urban datasets to evaluate education and cultural engagement patterns.</p>
+          <p>This dashboard brings together multiple urban datasets to evaluate education and cultural engagement patterns.</p>
         </div>
 
         <div class="overview-grid">
           <div class="overview-item">
             <h3>NYC Higher Education Enrollment</h3>
-            <p>Approx. 30,000 records used to evaluate enrollment distribution by borough and school type.</p>
+            <p>Approx. 30,000 records used to evaluate enrollment distribution across boroughs and school types.</p>
           </div>
           <div class="overview-item">
             <h3>Chicago Student Mobility</h3>
-            <p>Monthly movement data used to identify transfer trends and peak mobility periods.</p>
+            <p>Monthly movement records used to identify transfer trends and seasonal peaks.</p>
           </div>
           <div class="overview-item">
             <h3>Teacher Compliance Records</h3>
-            <p>Onboarding and compliance records used to analyze completion performance and delays.</p>
+            <p>Onboarding records used to assess completion, delays, and escalation rates.</p>
           </div>
           <div class="overview-item">
             <h3>Museum Attendance Estimates</h3>
-            <p>Cross-city visitor estimates used to compare cultural engagement between NYC and Chicago.</p>
+            <p>Cross-city museum visitor estimates used to compare cultural engagement in NYC and Chicago.</p>
           </div>
         </div>
       </section>
 
-      <!-- KPI Cards -->
       <section class="kpi-grid">
         <div class="card kpi-card">
           <p class="kpi-label">Total Enrollment</p>
@@ -139,21 +136,18 @@
         </div>
       </section>
 
-      <!-- Key Insights -->
       <section class="card section-block">
         <div class="section-header">
           <h2>Key Insights</h2>
-          <p>Analysts do more than build charts — they explain what the data means.</p>
+          <p>Analysts explain what the charts mean, not just what they show.</p>
         </div>
-
         <ul class="insights-list" id="keyInsightsList"></ul>
       </section>
 
-      <!-- Visual Analysis -->
       <section class="section-stack">
         <div class="section-header visual-heading">
           <h2>Visual Analysis</h2>
-          <p>Comparative views of enrollment, mobility, compliance, and museum attendance.</p>
+          <p>Comparative views of distribution, trend behavior, completion performance, and cross-city attendance.</p>
         </div>
 
         <div class="charts-grid">
@@ -161,9 +155,9 @@
             <div class="chart-header">
               <div>
                 <h3>Museum Attendance Comparison</h3>
-                <p>Compare museum visitors between NYC and Chicago.</p>
+                <p>Compare museum visitor volumes between NYC and Chicago.</p>
               </div>
-              <div class="badge" id="museumComparisonBadge">NYC leads</div>
+              <div class="badge" id="museumComparisonBadge">Comparison</div>
             </div>
             <canvas id="museumChart"></canvas>
             <div class="chart-note" id="museumInsight"></div>
@@ -188,6 +182,7 @@
               </div>
             </div>
             <canvas id="enrollmentChart"></canvas>
+
             <div class="table-wrap">
               <table>
                 <thead>
@@ -215,11 +210,10 @@
         </div>
       </section>
 
-      <!-- Data Preparation -->
       <section class="card section-block">
         <div class="section-header">
           <h2>Data Preparation</h2>
-          <p>This section reflects the cleaning and transformation work behind the dashboard.</p>
+          <p>This reflects the cleaning and transformation work behind the dashboard.</p>
         </div>
 
         <div class="prep-grid">
@@ -227,31 +221,22 @@
           <div class="prep-item">Standardized borough names</div>
           <div class="prep-item">Aggregated monthly movement data</div>
           <div class="prep-item">Calculated onboarding completion rates</div>
-          <div class="prep-item">Compared museum attendance totals by city</div>
-          <div class="prep-item">Prepared summary metrics for dashboard KPIs</div>
+          <div class="prep-item">Prepared city-level museum attendance summaries</div>
+          <div class="prep-item">Created portfolio-friendly KPI and trend summaries</div>
         </div>
       </section>
 
-      <!-- Recommendations -->
       <section class="card section-block">
         <div class="section-header">
           <h2>Recommendations</h2>
-          <p>Analytical projects should end with decision-oriented takeaways.</p>
+          <p>Analytical projects should conclude with action-oriented takeaways.</p>
         </div>
 
         <div class="recommendations-grid">
-          <div class="recommendation-item">
-            Increase onboarding monitoring to reduce teacher compliance delays.
-          </div>
-          <div class="recommendation-item">
-            Investigate borough-level enrollment differences, especially Queens versus Manhattan.
-          </div>
-          <div class="recommendation-item">
-            Prepare school operations for peak transfer periods in late spring.
-          </div>
-          <div class="recommendation-item">
-            Expand museum promotion strategies in Chicago to reduce the attendance gap.
-          </div>
+          <div class="recommendation-item">Increase onboarding monitoring to reduce compliance delays.</div>
+          <div class="recommendation-item">Investigate why Queens enrollment remains below Manhattan.</div>
+          <div class="recommendation-item">Prepare schools for peak transfer periods in late spring.</div>
+          <div class="recommendation-item">Strengthen museum outreach in Chicago to reduce the attendance gap.</div>
         </div>
       </section>
     </main>
