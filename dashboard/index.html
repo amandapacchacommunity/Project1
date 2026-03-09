@@ -1,77 +1,136 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Urban Education & Culture Dashboard</title>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-body{
-font-family: Arial;
-background:#f4f6f8;
-margin:40px;
-}
-
-h1{
-text-align:center;
-}
-
-.container{
-width:800px;
-margin:auto;
-background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-canvas{
-margin-top:40px;
-}
-</style>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project1 Analytics Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
+  <header class="topbar">
+    <div>
+      <h1>Project1 Analytics Dashboard</h1>
+      <p>Urban Education, Mobility, Compliance, and Museum Insights</p>
+    </div>
+  </header>
 
-<h1>Project1 Analytics Dashboard</h1>
+  <main class="dashboard">
+    <section class="kpi-grid">
+      <div class="card kpi">
+        <h3>Total Enrollment Records</h3>
+        <p class="kpi-value">30,000</p>
+        <span>NYC higher education dataset</span>
+      </div>
 
-<div class="container">
+      <div class="card kpi">
+        <h3>Total Student Moves</h3>
+        <p class="kpi-value">30,000</p>
+        <span>Chicago mobility events</span>
+      </div>
 
-<h2>Museum Visitors by City</h2>
+      <div class="card kpi">
+        <h3>Avg Onboarding Days</h3>
+        <p class="kpi-value">18.4</p>
+        <span>Teacher compliance completion</span>
+      </div>
 
-<canvas id="visitorsChart"></canvas>
+      <div class="card kpi">
+        <h3>Total Museum Revenue</h3>
+        <p class="kpi-value">$2.8M</p>
+        <span>NYC + Chicago synthetic estimate</span>
+      </div>
+    </section>
 
-</div>
+    <section class="chart-grid">
+      <div class="card chart-card">
+        <div class="card-header">
+          <h2>Museum Visitors by City</h2>
+          <p>Attendance comparison</p>
+        </div>
+        <canvas id="museumVisitorsChart"></canvas>
+      </div>
 
-<script>
+      <div class="card chart-card">
+        <div class="card-header">
+          <h2>Teacher Onboarding Status</h2>
+          <p>Compliance completion overview</p>
+        </div>
+        <canvas id="onboardingStatusChart"></canvas>
+      </div>
 
-const data = {
-labels: ["NYC","Chicago"],
-datasets: [{
-label: "Visitors",
-data: [95000,72000],
-backgroundColor: ["#4e79a7","#f28e2b"]
-}]
-};
+      <div class="card chart-card wide">
+        <div class="card-header">
+          <h2>NYC Enrollment by Borough</h2>
+          <p>Distribution of student records</p>
+        </div>
+        <canvas id="enrollmentChart"></canvas>
+      </div>
 
-const config = {
-type: "bar",
-data: data,
-options: {
-responsive:true,
-plugins:{
-legend:{display:false}
-}
-}
-};
+      <div class="card chart-card wide">
+        <div class="card-header">
+          <h2>Chicago Student Movement Trend</h2>
+          <p>Monthly movement volume across neighborhoods</p>
+        </div>
+        <canvas id="movementTrendChart"></canvas>
+      </div>
+    </section>
 
-new Chart(
-document.getElementById("visitorsChart"),
-config
-);
+    <section class="table-section">
+      <div class="card">
+        <div class="card-header">
+          <h2>Neighborhood Movement Snapshot</h2>
+          <p>Top routes by synthetic student movement</p>
+        </div>
 
-</script>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Origin</th>
+                <th>Destination</th>
+                <th>Students Moved</th>
+                <th>Year</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Hyde Park</td>
+                <td>Loop</td>
+                <td>385</td>
+                <td>2025</td>
+              </tr>
+              <tr>
+                <td>Pilsen</td>
+                <td>Lakeview</td>
+                <td>342</td>
+                <td>2024</td>
+              </tr>
+              <tr>
+                <td>Austin</td>
+                <td>Rogers Park</td>
+                <td>319</td>
+                <td>2025</td>
+              </tr>
+              <tr>
+                <td>South Shore</td>
+                <td>Hyde Park</td>
+                <td>301</td>
+                <td>2023</td>
+              </tr>
+              <tr>
+                <td>Englewood</td>
+                <td>Loop</td>
+                <td>294</td>
+                <td>2024</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
 
+  <script src="app.js"></script>
 </body>
 </html>
