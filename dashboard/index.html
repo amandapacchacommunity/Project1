@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Urban Education & Culture Dashboard</title>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+font-family: Arial;
+background:#f4f6f8;
+margin:40px;
+}
+
+h1{
+text-align:center;
+}
+
+.container{
+width:800px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+canvas{
+margin-top:40px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Project1 Analytics Dashboard</h1>
+
+<div class="container">
+
+<h2>Museum Visitors by City</h2>
+
+<canvas id="visitorsChart"></canvas>
+
+</div>
+
+<script>
+
+const data = {
+labels: ["NYC","Chicago"],
+datasets: [{
+label: "Visitors",
+data: [95000,72000],
+backgroundColor: ["#4e79a7","#f28e2b"]
+}]
+};
+
+const config = {
+type: "bar",
+data: data,
+options: {
+responsive:true,
+plugins:{
+legend:{display:false}
+}
+}
+};
+
+new Chart(
+document.getElementById("visitorsChart"),
+config
+);
+
+</script>
+
+</body>
+</html>
