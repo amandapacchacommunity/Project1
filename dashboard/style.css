@@ -142,4 +142,8 @@ canvas {
   .topbar h1 {
     font-size: 1.5rem;
   }
+  
+  <script>
+console.log("Dashboard JS loaded");
+</script>
 }
