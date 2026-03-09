@@ -24,18 +24,33 @@ new Chart(museumVisitorsCtx, {
   }
 });
 
-new Chart(onboardingStatusCtx, {
+new Chart(document.getElementById("onboardingStatusChart"), {
   type: "doughnut",
   data: {
     labels: ["Completed", "Late", "Escalated"],
-    datasets: [
-      {
-        data: [68, 22, 10]
-      }
-    ]
+    datasets: [{
+      data: [68, 22, 10],
+      backgroundColor: [
+        "#3b82f6",
+        "#f59e0b",
+        "#ef4444"
+      ]
+    }]
   },
   options: {
-    responsive: true
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          boxWidth: 15,
+          padding: 12,
+          font: {
+            size: 12
+          }
+        }
+      }
+    }
   }
 });
 
