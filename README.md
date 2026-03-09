@@ -5,7 +5,19 @@ This project contains synthetic datasets and analysis exploring trends in higher
 The datasets were generated for analytics practice, visualization, and portfolio development.
 
 ---
+## Dashboard
 
+An interactive analytics dashboard is included in this repository.
+
+Open `index.html` to view the dashboard.
+
+It includes:
+- Museum visitor analytics
+- Teacher onboarding compliance
+- NYC enrollment distribution
+- Chicago student movement trends
+
+  
 # Datasets
 
 ## NYC Higher Education Enrollment
