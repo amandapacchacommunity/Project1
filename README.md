@@ -17,7 +17,12 @@ It includes:
 - NYC enrollment distribution
 - Chicago student movement trends
 
-  
+  ## Live Dashboard
+
+View the interactive analytics dashboard:
+
+https://amandapacchacommunity.github.io/Project1/dashboard/index.html
+
 # Datasets
 
 ## NYC Higher Education Enrollment
