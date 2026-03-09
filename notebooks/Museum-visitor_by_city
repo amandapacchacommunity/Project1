@@ -1,5 +1,18 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
+# load dataset
 df = pd.read_csv("museum_visitors_nyc_chicago_5y_30000.csv")
 
-print(df.groupby("city")["party_size"].sum())
+# visitors by city
+visitors = df.groupby("city")["party_size"].sum()
+
+print(visitors)
+
+# create chart
+visitors.plot(kind="bar")
+
+plt.title("Museum Visitors by City")
+plt.ylabel("Total Visitors")
+
+plt.show()
