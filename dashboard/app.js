@@ -117,19 +117,32 @@ function formatNumber(value) {
 }
 
 function formatPercent(value) {
-  return `${value.toFixed(0)}%`;
+  return `${Number(value).toFixed(0)}%`;
 }
 
 function getSelectedYear() {
-  return yearFilter.value === "all" ? "all" : Number(yearFilter.value);
+  return yearFilter && yearFilter.value !== "all" ? Number(yearFilter.value) : "all";
+}
+
+function sumValues(data, key = "value") {
+  return data.reduce((sum, item) => sum + (Number(item[key]) || 0), 0);
+}
+
+function groupBy(array, key) {
+  return array.reduce((acc, item) => {
+    const group = item[key];
+    if (!acc[group]) acc[group] = [];
+    acc[group].push(item);
+    return acc;
+  }, {});
 }
 
 function filterEnrollmentData() {
   return dashboardData.enrollment.filter((item) => {
     const yearMatch = getSelectedYear() === "all" || item.year === getSelectedYear();
-    const cityMatch = cityFilter.value === "all" || item.city === cityFilter.value;
-    const boroughMatch = boroughFilter.value === "all" || item.borough === boroughFilter.value;
-    const schoolTypeMatch = schoolTypeFilter.value === "all" || item.schoolType === schoolTypeFilter.value;
+    const cityMatch = !cityFilter || cityFilter.value === "all" || item.city === cityFilter.value;
+    const boroughMatch = !boroughFilter || boroughFilter.value === "all" || item.borough === boroughFilter.value;
+    const schoolTypeMatch = !schoolTypeFilter || schoolTypeFilter.value === "all" || item.schoolType === schoolTypeFilter.value;
     return yearMatch && cityMatch && boroughMatch && schoolTypeMatch;
   });
 }
@@ -137,7 +150,7 @@ function filterEnrollmentData() {
 function filterMovementData() {
   return dashboardData.movement.filter((item) => {
     const yearMatch = getSelectedYear() === "all" || item.year === getSelectedYear();
-    const cityMatch = cityFilter.value === "all" || item.city === cityFilter.value;
+    const cityMatch = !cityFilter || cityFilter.value === "all" || item.city === cityFilter.value;
     return yearMatch && cityMatch;
   });
 }
@@ -145,7 +158,7 @@ function filterMovementData() {
 function filterOnboardingData() {
   return dashboardData.onboarding.filter((item) => {
     const yearMatch = getSelectedYear() === "all" || item.year === getSelectedYear();
-    const cityMatch = cityFilter.value === "all" || item.city === cityFilter.value;
+    const cityMatch = !cityFilter || cityFilter.value === "all" || item.city === cityFilter.value;
     return yearMatch && cityMatch;
   });
 }
@@ -157,25 +170,12 @@ function filterMuseumData() {
   });
 }
 
-function sumValues(data, key = "value") {
-  return data.reduce((acc, item) => acc + item[key], 0);
-}
-
-function groupBy(array, key) {
-  return array.reduce((acc, item) => {
-    const groupKey = item[key];
-    if (!acc[groupKey]) acc[groupKey] = [];
-    acc[groupKey].push(item);
-    return acc;
-  }, {});
-}
-
 function getEnrollmentSummary() {
   const filtered = filterEnrollmentData();
   const grouped = groupBy(filtered, "borough");
 
   const boroughSummary = Object.keys(grouped).map((borough) => {
-    const total = sumValues(grouped[borough]);
+    const total = sumValues(grouped[borough], "value");
     return { borough, total };
   });
 
@@ -199,10 +199,14 @@ function getMovementSummary() {
 
   const monthly = months.map((month) => ({
     month,
-    total: grouped[month] ? sumValues(grouped[month]) : 0
+    total: grouped[month] ? sumValues(grouped[month], "value") : 0
   }));
 
-  const peak = monthly.reduce((max, item) => (item.total > max.total ? item : max), { month: "", total: 0 });
+  const peak = monthly.reduce((max, item) => (item.total > max.total ? item : max), {
+    month: "",
+    total: 0
+  });
+
   const annualTotal = sumValues(monthly, "total");
 
   return { monthly, peak, annualTotal };
@@ -212,9 +216,9 @@ function getOnboardingSummary() {
   const filtered = filterOnboardingData();
   const grouped = groupBy(filtered, "status");
 
-  const completed = grouped.Completed ? sumValues(grouped.Completed) : 0;
-  const delayed = grouped.Delayed ? sumValues(grouped.Delayed) : 0;
-  const escalated = grouped.Escalated ? sumValues(grouped.Escalated) : 0;
+  const completed = grouped.Completed ? sumValues(grouped.Completed, "value") : 0;
+  const delayed = grouped.Delayed ? sumValues(grouped.Delayed, "value") : 0;
+  const escalated = grouped.Escalated ? sumValues(grouped.Escalated, "value") : 0;
 
   return { completed, delayed, escalated };
 }
@@ -226,10 +230,7 @@ function getMuseumSummary() {
   const nyc = grouped.NYC ? sumValues(grouped.NYC, "visitors") : 0;
   const chicago = grouped.Chicago ? sumValues(grouped.Chicago, "visitors") : 0;
 
-  let diffPercent = 0;
-  if (chicago > 0) {
-    diffPercent = ((nyc - chicago) / chicago) * 100;
-  }
+  const diffPercent = chicago > 0 ? ((nyc - chicago) / chicago) * 100 : 0;
 
   return { nyc, chicago, diffPercent };
 }
@@ -240,30 +241,43 @@ function updateKPIs() {
   const onboardingSummary = getOnboardingSummary();
   const museumSummary = getMuseumSummary();
 
-  document.getElementById("kpiEnrollment").textContent = formatNumber(enrollmentSummary.totalEnrollment);
-  document.getElementById("kpiEnrollmentMeta").textContent = "Selected enrollment total";
+  const kpiEnrollment = document.getElementById("kpiEnrollment");
+  const kpiEnrollmentMeta = document.getElementById("kpiEnrollmentMeta");
+  const kpiMovement = document.getElementById("kpiMovement");
+  const kpiMovementMeta = document.getElementById("kpiMovementMeta");
+  const kpiOnboarding = document.getElementById("kpiOnboarding");
+  const kpiOnboardingMeta = document.getElementById("kpiOnboardingMeta");
+  const kpiMuseum = document.getElementById("kpiMuseum");
+  const kpiMuseumMeta = document.getElementById("kpiMuseumMeta");
 
-  document.getElementById("kpiMovement").textContent = formatNumber(movementSummary.annualTotal);
-  document.getElementById("kpiMovementMeta").textContent = `Peak in ${movementSummary.peak.month}`;
+  if (kpiEnrollment) kpiEnrollment.textContent = formatNumber(enrollmentSummary.totalEnrollment);
+  if (kpiEnrollmentMeta) kpiEnrollmentMeta.textContent = "Selected enrollment total";
 
-  document.getElementById("kpiOnboarding").textContent = formatPercent(onboardingSummary.completed);
-  document.getElementById("kpiOnboardingMeta").textContent =
-    `${onboardingSummary.delayed}% delayed, ${onboardingSummary.escalated}% escalated`;
+  if (kpiMovement) kpiMovement.textContent = formatNumber(movementSummary.annualTotal);
+  if (kpiMovementMeta) {
+    kpiMovementMeta.textContent = movementSummary.peak.month
+      ? `Peak in ${movementSummary.peak.month}`
+      : "No movement data for selection";
+  }
 
-  const citySelection = cityFilter.value;
+  if (kpiOnboarding) kpiOnboarding.textContent = formatPercent(onboardingSummary.completed);
+  if (kpiOnboardingMeta) {
+    kpiOnboardingMeta.textContent = `${onboardingSummary.delayed}% delayed, ${onboardingSummary.escalated}% escalated`;
+  }
+
   let museumValue = museumSummary.nyc;
   let museumMeta = "Visitors in NYC";
 
-  if (citySelection === "Chicago") {
+  if (cityFilter && cityFilter.value === "Chicago") {
     museumValue = museumSummary.chicago;
     museumMeta = "Visitors in Chicago";
-  } else if (citySelection === "all") {
+  } else if (cityFilter && cityFilter.value === "all") {
     museumValue = museumSummary.nyc + museumSummary.chicago;
     museumMeta = "Visitors across both cities";
   }
 
-  document.getElementById("kpiMuseum").textContent = formatNumber(museumValue);
-  document.getElementById("kpiMuseumMeta").textContent = museumMeta;
+  if (kpiMuseum) kpiMuseum.textContent = formatNumber(museumValue);
+  if (kpiMuseumMeta) kpiMuseumMeta.textContent = museumMeta;
 }
 
 function updateInsights() {
@@ -271,6 +285,9 @@ function updateInsights() {
   const movementSummary = getMovementSummary();
   const onboardingSummary = getOnboardingSummary();
   const museumSummary = getMuseumSummary();
+
+  const list = document.getElementById("keyInsightsList");
+  if (!list) return;
 
   const topBorough = enrollmentSummary.boroughSummary[0];
   const museumLeadCity = museumSummary.nyc >= museumSummary.chicago ? "NYC" : "Chicago";
@@ -282,12 +299,16 @@ function updateInsights() {
     insights.push(
       `${topBorough.borough} has the highest enrollment (${formatNumber(topBorough.total)} students), representing ${topBorough.share.toFixed(0)}% of the selected total.`
     );
+  } else {
+    insights.push("No enrollment records are available for the current filter selection.");
   }
 
-  if (movementSummary.peak.month) {
+  if (movementSummary.peak.month && movementSummary.peak.total > 0) {
     insights.push(
       `Student movement peaks in ${movementSummary.peak.month}, suggesting a seasonal transfer period before summer.`
     );
+  } else {
+    insights.push("No student movement records are available for the current filter selection.");
   }
 
   insights.push(
@@ -298,7 +319,6 @@ function updateInsights() {
     `${museumLeadCity} museum attendance is approximately ${museumGap.toFixed(0)}% higher than the comparison city.`
   );
 
-  const list = document.getElementById("keyInsightsList");
   list.innerHTML = "";
   insights.forEach((insight) => {
     const li = document.createElement("li");
@@ -308,9 +328,20 @@ function updateInsights() {
 }
 
 function updateEnrollmentTable() {
+  const tableBody = document.getElementById("boroughTableBody");
+  if (!tableBody) return;
+
   const { boroughSummary } = getEnrollmentSummary();
-  const body = document.getElementById("boroughTableBody");
-  body.innerHTML = "";
+  tableBody.innerHTML = "";
+
+  if (!boroughSummary.length) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="3">No enrollment data available for the selected filters.</td>
+      </tr>
+    `;
+    return;
+  }
 
   boroughSummary.forEach((row) => {
     const tr = document.createElement("tr");
@@ -319,39 +350,38 @@ function updateEnrollmentTable() {
       <td>${formatNumber(row.total)}</td>
       <td>${row.share.toFixed(0)}%</td>
     `;
-    body.appendChild(tr);
+    tableBody.appendChild(tr);
   });
 }
 
 function createOrUpdateMuseumChart() {
-  const museumSummary = getMuseumSummary();
-  const ctx = document.getElementById("museumChart");
+  const canvas = document.getElementById("museumChart");
+  if (!canvas) return;
 
-  const data = {
-    labels: ["NYC", "Chicago"],
-    datasets: [
-      {
-        label: "Museum Visitors",
-        data: [museumSummary.nyc, museumSummary.chicago],
-        borderWidth: 1
-      }
-    ]
-  };
+  const museumSummary = getMuseumSummary();
 
   if (museumChart) museumChart.destroy();
 
-  museumChart = new Chart(ctx, {
+  museumChart = new Chart(canvas, {
     type: "bar",
-    data,
+    data: {
+      labels: ["NYC", "Chicago"],
+      datasets: [
+        {
+          label: "Museum Visitors",
+          data: [museumSummary.nyc, museumSummary.chicago],
+          borderWidth: 1
+        }
+      ]
+    },
     options: {
       responsive: true,
+      maintainAspectRatio: true,
       plugins: {
-        legend: {
-          display: false
-        },
+        legend: { display: false },
         tooltip: {
           callbacks: {
-            label: (context) => ` ${formatNumber(context.raw)} visitors`
+            label: (context) => `${formatNumber(context.raw)} visitors`
           }
         }
       },
@@ -368,83 +398,87 @@ function createOrUpdateMuseumChart() {
 
   const badge = document.getElementById("museumComparisonBadge");
   const insight = document.getElementById("museumInsight");
+  const leadCity = museumSummary.nyc >= museumSummary.chicago ? "NYC" : "Chicago";
 
-  const leadingCity = museumSummary.nyc >= museumSummary.chicago ? "NYC" : "Chicago";
-  badge.textContent = `${leadingCity} leads`;
-
-  insight.textContent =
-    `Museum attendance comparison shows that NYC receives about ${Math.abs(museumSummary.diffPercent).toFixed(0)}% more visitors than Chicago, indicating stronger cultural traffic and visitor demand.`;
+  if (badge) badge.textContent = `${leadCity} leads`;
+  if (insight) {
+    insight.textContent = `Museum attendance comparison shows that NYC receives about ${Math.abs(
+      museumSummary.diffPercent
+    ).toFixed(0)}% more visitors than Chicago.`;
+  }
 }
 
 function createOrUpdateOnboardingChart() {
-  const summary = getOnboardingSummary();
-  const ctx = document.getElementById("onboardingChart");
+  const canvas = document.getElementById("onboardingChart");
+  if (!canvas) return;
 
-  const data = {
-    labels: ["Completed", "Delayed", "Escalated"],
-    datasets: [
-      {
-        label: "Onboarding Status",
-        data: [summary.completed, summary.delayed, summary.escalated],
-        borderWidth: 1
-      }
-    ]
-  };
+  const summary = getOnboardingSummary();
 
   if (onboardingChart) onboardingChart.destroy();
 
-  onboardingChart = new Chart(ctx, {
+  onboardingChart = new Chart(canvas, {
     type: "doughnut",
-    data,
+    data: {
+      labels: ["Completed", "Delayed", "Escalated"],
+      datasets: [
+        {
+          label: "Onboarding Status",
+          data: [summary.completed, summary.delayed, summary.escalated],
+          borderWidth: 1
+        }
+      ]
+    },
     options: {
       responsive: true,
+      maintainAspectRatio: true,
       plugins: {
         legend: {
           position: "bottom"
         },
         tooltip: {
           callbacks: {
-            label: (context) => ` ${context.label}: ${context.raw}%`
+            label: (context) => `${context.label}: ${context.raw}%`
           }
         }
       }
     }
   });
 
-  document.getElementById("onboardingInsight").textContent =
-    `Teacher compliance completion is ${summary.completed}%, while ${summary.delayed}% of cases are delayed and ${summary.escalated}% require escalation. This suggests a need for stronger onboarding monitoring.`;
+  const insight = document.getElementById("onboardingInsight");
+  if (insight) {
+    insight.textContent = `Teacher compliance completion is ${summary.completed}%, while ${summary.delayed}% of cases are delayed and ${summary.escalated}% require escalation.`;
+  }
 }
 
 function createOrUpdateEnrollmentChart() {
-  const summary = getEnrollmentSummary();
-  const ctx = document.getElementById("enrollmentChart");
+  const canvas = document.getElementById("enrollmentChart");
+  if (!canvas) return;
 
-  const data = {
-    labels: summary.boroughSummary.map((item) => item.borough),
-    datasets: [
-      {
-        label: "Enrollment",
-        data: summary.boroughSummary.map((item) => item.total),
-        borderWidth: 1
-      }
-    ]
-  };
+  const summary = getEnrollmentSummary();
 
   if (enrollmentChart) enrollmentChart.destroy();
 
-  enrollmentChart = new Chart(ctx, {
+  enrollmentChart = new Chart(canvas, {
     type: "bar",
-    data,
+    data: {
+      labels: summary.boroughSummary.map((item) => item.borough),
+      datasets: [
+        {
+          label: "Enrollment",
+          data: summary.boroughSummary.map((item) => item.total),
+          borderWidth: 1
+        }
+      ]
+    },
     options: {
       indexAxis: "y",
       responsive: true,
+      maintainAspectRatio: true,
       plugins: {
-        legend: {
-          display: false
-        },
+        legend: { display: false },
         tooltip: {
           callbacks: {
-            label: (context) => ` ${formatNumber(context.raw)} students`
+            label: (context) => `${formatNumber(context.raw)} students`
           }
         }
       },
@@ -461,36 +495,35 @@ function createOrUpdateEnrollmentChart() {
 }
 
 function createOrUpdateMovementChart() {
-  const summary = getMovementSummary();
-  const ctx = document.getElementById("movementChart");
+  const canvas = document.getElementById("movementChart");
+  if (!canvas) return;
 
-  const data = {
-    labels: summary.monthly.map((item) => item.month),
-    datasets: [
-      {
-        label: "Student Movement",
-        data: summary.monthly.map((item) => item.total),
-        fill: false,
-        tension: 0.3,
-        borderWidth: 3
-      }
-    ]
-  };
+  const summary = getMovementSummary();
 
   if (movementChart) movementChart.destroy();
 
-  movementChart = new Chart(ctx, {
+  movementChart = new Chart(canvas, {
     type: "line",
-    data,
+    data: {
+      labels: summary.monthly.map((item) => item.month),
+      datasets: [
+        {
+          label: "Student Movement",
+          data: summary.monthly.map((item) => item.total),
+          borderWidth: 3,
+          tension: 0.3,
+          fill: false
+        }
+      ]
+    },
     options: {
       responsive: true,
+      maintainAspectRatio: true,
       plugins: {
-        legend: {
-          display: false
-        },
+        legend: { display: false },
         tooltip: {
           callbacks: {
-            label: (context) => ` ${formatNumber(context.raw)} transfers`
+            label: (context) => `${formatNumber(context.raw)} transfers`
           }
         }
       },
@@ -505,8 +538,16 @@ function createOrUpdateMovementChart() {
     }
   });
 
-  document.getElementById("movementInsight").textContent =
-    `Peak student movement occurs in ${summary.peak.month}, with ${formatNumber(summary.peak.total)} recorded movements. This late-spring spike may reflect school transfer activity before summer.`;
+  const insight = document.getElementById("movementInsight");
+  if (insight) {
+    if (summary.peak.month && summary.peak.total > 0) {
+      insight.textContent = `Peak student movement occurs in ${summary.peak.month}, with ${formatNumber(
+        summary.peak.total
+      )} recorded movements. This late-spring spike may reflect school transfer activity before summer.`;
+    } else {
+      insight.textContent = "No student movement data is available for the current filter selection.";
+    }
+  }
 }
 
 function updateDashboard() {
@@ -519,8 +560,34 @@ function updateDashboard() {
   createOrUpdateMovementChart();
 }
 
-[yearFilter, cityFilter, boroughFilter, schoolTypeFilter].forEach((filter) => {
-  filter.addEventListener("change", updateDashboard);
-});
+function safeInit() {
+  const requiredIds = [
+    "yearFilter",
+    "cityFilter",
+    "boroughFilter",
+    "schoolTypeFilter",
+    "museumChart",
+    "onboardingChart",
+    "enrollmentChart",
+    "movementChart",
+    "keyInsightsList",
+    "boroughTableBody"
+  ];
 
-updateDashboard();
+  const missing = requiredIds.filter((id) => !document.getElementById(id));
+
+  if (missing.length > 0) {
+    console.error("Missing required dashboard elements:", missing);
+    return;
+  }
+
+  [yearFilter, cityFilter, boroughFilter, schoolTypeFilter].forEach((filter) => {
+    if (filter) {
+      filter.addEventListener("change", updateDashboard);
+    }
+  });
+
+  updateDashboard();
+}
+
+document.addEventListener("DOMContentLoaded", safeInit);
