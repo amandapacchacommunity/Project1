@@ -3,142 +3,260 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Project1 Analytics Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Urban Education & Mobility Analytics Dashboard</title>
+  <link rel="stylesheet" href="./style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <h1>Project1 Analytics Dashboard</h1>
-      <p>Urban Education, Mobility, Compliance, and Museum Insights</p>
-    </div>
-  </header>
-
-  <main class="dashboard">
-    <section class="kpi-grid">
-      <div class="card kpi">
-        <h3>Total Enrollment Records</h3>
-        <p class="kpi-value">30,000</p>
-        <span>NYC higher education dataset</span>
+  <div class="dashboard-shell">
+    <header class="hero">
+      <div class="hero-text">
+        <p class="eyebrow">Data Analyst Portfolio Project</p>
+        <h1>Urban Education & Mobility Analytics Dashboard</h1>
+        <p class="hero-subtitle">
+          A comparative analysis of education, mobility, onboarding, and museum attendance trends
+          across NYC and Chicago.
+        </p>
       </div>
+    </header>
 
-      <div class="card kpi">
-        <h3>Total Student Moves</h3>
-        <p class="kpi-value">30,000</p>
-        <span>Chicago mobility events</span>
-      </div>
+    <main class="container">
+      <!-- Project Goal -->
+      <section class="card section-block">
+        <div class="section-header">
+          <h2>Project Goal</h2>
+        </div>
+        <div class="goal-grid">
+          <div class="goal-item">Understand student enrollment distribution in NYC</div>
+          <div class="goal-item">Analyze student movement trends in Chicago</div>
+          <div class="goal-item">Evaluate teacher onboarding performance</div>
+          <div class="goal-item">Compare museum engagement between cities</div>
+        </div>
+      </section>
 
-      <div class="card kpi">
-        <h3>Avg Onboarding Days</h3>
-        <p class="kpi-value">18.4</p>
-        <span>Teacher compliance completion</span>
-      </div>
-
-      <div class="card kpi">
-        <h3>Total Museum Revenue</h3>
-        <p class="kpi-value">$2.8M</p>
-        <span>NYC + Chicago synthetic estimate</span>
-      </div>
-    </section>
-
-    <section class="chart-grid">
-      <div class="card chart-card">
-        <div class="card-header">
-          <h2>Museum Visitors by City</h2>
-          <p>Attendance comparison</p>
-        </div>
-        <div class="chart-wrap">
-          <canvas id="museumVisitorsChart"></canvas>
-        </div>
-      </div>
-
-      <div class="card chart-card">
-        <div class="card-header">
-          <h2>Teacher Onboarding Status</h2>
-          <p>Compliance completion overview</p>
-        </div>
-        <div class="chart-wrap donut-wrap">
-          <canvas id="onboardingStatusChart"></canvas>
-        </div>
-      </div>
-
-      <div class="card chart-card wide">
-        <div class="card-header">
-          <h2>NYC Enrollment by Borough</h2>
-          <p>Distribution of student records</p>
-        </div>
-        <div class="chart-wrap">
-          <canvas id="enrollmentChart"></canvas>
-        </div>
-      </div>
-
-      <div class="card chart-card wide">
-        <div class="card-header">
-          <h2>Chicago Student Movement Trend</h2>
-          <p>Monthly movement volume across neighborhoods</p>
-        </div>
-        <div class="chart-wrap">
-          <canvas id="movementTrendChart"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <section class="table-section">
-      <div class="card">
-        <div class="card-header">
-          <h2>Neighborhood Movement Snapshot</h2>
-          <p>Top routes by synthetic student movement</p>
+      <!-- Filters -->
+      <section class="card section-block">
+        <div class="section-header">
+          <h2>Interactive Filters</h2>
+          <p>Use filters to explore the dashboard by year, city, borough, and school type.</p>
         </div>
 
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Origin</th>
-                <th>Destination</th>
-                <th>Students Moved</th>
-                <th>Year</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Hyde Park</td>
-                <td>Loop</td>
-                <td>385</td>
-                <td>2025</td>
-              </tr>
-              <tr>
-                <td>Pilsen</td>
-                <td>Lakeview</td>
-                <td>342</td>
-                <td>2024</td>
-              </tr>
-              <tr>
-                <td>Austin</td>
-                <td>Rogers Park</td>
-                <td>319</td>
-                <td>2025</td>
-              </tr>
-              <tr>
-                <td>South Shore</td>
-                <td>Hyde Park</td>
-                <td>301</td>
-                <td>2023</td>
-              </tr>
-              <tr>
-                <td>Englewood</td>
-                <td>Loop</td>
-                <td>294</td>
-                <td>2024</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-  </main>
+        <div class="filters-grid">
+          <div class="filter-group">
+            <label for="yearFilter">Year</label>
+            <select id="yearFilter">
+              <option value="all">All</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+              <option value="2024" selected>2024</option>
+            </select>
+          </div>
 
-  <script src="app.js"></script>
+          <div class="filter-group">
+            <label for="cityFilter">City</label>
+            <select id="cityFilter">
+              <option value="all">All</option>
+              <option value="NYC" selected>NYC</option>
+              <option value="Chicago">Chicago</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="boroughFilter">Borough</label>
+            <select id="boroughFilter">
+              <option value="all" selected>All</option>
+              <option value="Manhattan">Manhattan</option>
+              <option value="Brooklyn">Brooklyn</option>
+              <option value="Queens">Queens</option>
+              <option value="Bronx">Bronx</option>
+              <option value="Staten Island">Staten Island</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="schoolTypeFilter">School Type</label>
+            <select id="schoolTypeFilter">
+              <option value="all" selected>All</option>
+              <option value="Public">Public</option>
+              <option value="Charter">Charter</option>
+              <option value="Private">Private</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dataset Overview -->
+      <section class="card section-block">
+        <div class="section-header">
+          <h2>Dataset Overview</h2>
+          <p>This dashboard combines multiple urban datasets to evaluate education and cultural engagement patterns.</p>
+        </div>
+
+        <div class="overview-grid">
+          <div class="overview-item">
+            <h3>NYC Higher Education Enrollment</h3>
+            <p>Approx. 30,000 records used to evaluate enrollment distribution by borough and school type.</p>
+          </div>
+          <div class="overview-item">
+            <h3>Chicago Student Mobility</h3>
+            <p>Monthly movement data used to identify transfer trends and peak mobility periods.</p>
+          </div>
+          <div class="overview-item">
+            <h3>Teacher Compliance Records</h3>
+            <p>Onboarding and compliance records used to analyze completion performance and delays.</p>
+          </div>
+          <div class="overview-item">
+            <h3>Museum Attendance Estimates</h3>
+            <p>Cross-city visitor estimates used to compare cultural engagement between NYC and Chicago.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- KPI Cards -->
+      <section class="kpi-grid">
+        <div class="card kpi-card">
+          <p class="kpi-label">Total Enrollment</p>
+          <h3 id="kpiEnrollment">0</h3>
+          <span class="kpi-meta" id="kpiEnrollmentMeta">Across selected boroughs</span>
+        </div>
+
+        <div class="card kpi-card">
+          <p class="kpi-label">Student Movement</p>
+          <h3 id="kpiMovement">0</h3>
+          <span class="kpi-meta" id="kpiMovementMeta">Annual transfer volume</span>
+        </div>
+
+        <div class="card kpi-card">
+          <p class="kpi-label">Onboarding Completion</p>
+          <h3 id="kpiOnboarding">0%</h3>
+          <span class="kpi-meta" id="kpiOnboardingMeta">Completion performance</span>
+        </div>
+
+        <div class="card kpi-card">
+          <p class="kpi-label">Museum Attendance</p>
+          <h3 id="kpiMuseum">0</h3>
+          <span class="kpi-meta" id="kpiMuseumMeta">Visitors in selected city</span>
+        </div>
+      </section>
+
+      <!-- Key Insights -->
+      <section class="card section-block">
+        <div class="section-header">
+          <h2>Key Insights</h2>
+          <p>Analysts do more than build charts — they explain what the data means.</p>
+        </div>
+
+        <ul class="insights-list" id="keyInsightsList"></ul>
+      </section>
+
+      <!-- Visual Analysis -->
+      <section class="section-stack">
+        <div class="section-header visual-heading">
+          <h2>Visual Analysis</h2>
+          <p>Comparative views of enrollment, mobility, compliance, and museum attendance.</p>
+        </div>
+
+        <div class="charts-grid">
+          <section class="card chart-card">
+            <div class="chart-header">
+              <div>
+                <h3>Museum Attendance Comparison</h3>
+                <p>Compare museum visitors between NYC and Chicago.</p>
+              </div>
+              <div class="badge" id="museumComparisonBadge">NYC leads</div>
+            </div>
+            <canvas id="museumChart"></canvas>
+            <div class="chart-note" id="museumInsight"></div>
+          </section>
+
+          <section class="card chart-card">
+            <div class="chart-header">
+              <div>
+                <h3>Teacher Compliance Completion Analysis</h3>
+                <p>Measure the share of completed, delayed, and escalated onboarding cases.</p>
+              </div>
+            </div>
+            <canvas id="onboardingChart"></canvas>
+            <div class="chart-note" id="onboardingInsight"></div>
+          </section>
+
+          <section class="card chart-card">
+            <div class="chart-header">
+              <div>
+                <h3>Enrollment Distribution by Borough</h3>
+                <p>Enrollment totals and share of total enrollment by borough.</p>
+              </div>
+            </div>
+            <canvas id="enrollmentChart"></canvas>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Borough</th>
+                    <th>Enrollment</th>
+                    <th>% of Total</th>
+                  </tr>
+                </thead>
+                <tbody id="boroughTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card chart-card">
+            <div class="chart-header">
+              <div>
+                <h3>Student Mobility Trend</h3>
+                <p>Monthly student movement pattern with seasonal interpretation.</p>
+              </div>
+            </div>
+            <canvas id="movementChart"></canvas>
+            <div class="chart-note" id="movementInsight"></div>
+          </section>
+        </div>
+      </section>
+
+      <!-- Data Preparation -->
+      <section class="card section-block">
+        <div class="section-header">
+          <h2>Data Preparation</h2>
+          <p>This section reflects the cleaning and transformation work behind the dashboard.</p>
+        </div>
+
+        <div class="prep-grid">
+          <div class="prep-item">Removed duplicate enrollment records</div>
+          <div class="prep-item">Standardized borough names</div>
+          <div class="prep-item">Aggregated monthly movement data</div>
+          <div class="prep-item">Calculated onboarding completion rates</div>
+          <div class="prep-item">Compared museum attendance totals by city</div>
+          <div class="prep-item">Prepared summary metrics for dashboard KPIs</div>
+        </div>
+      </section>
+
+      <!-- Recommendations -->
+      <section class="card section-block">
+        <div class="section-header">
+          <h2>Recommendations</h2>
+          <p>Analytical projects should end with decision-oriented takeaways.</p>
+        </div>
+
+        <div class="recommendations-grid">
+          <div class="recommendation-item">
+            Increase onboarding monitoring to reduce teacher compliance delays.
+          </div>
+          <div class="recommendation-item">
+            Investigate borough-level enrollment differences, especially Queens versus Manhattan.
+          </div>
+          <div class="recommendation-item">
+            Prepare school operations for peak transfer periods in late spring.
+          </div>
+          <div class="recommendation-item">
+            Expand museum promotion strategies in Chicago to reduce the attendance gap.
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./app.js"></script>
 </body>
 </html>
