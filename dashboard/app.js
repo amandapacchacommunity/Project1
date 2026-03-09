@@ -1,11 +1,9 @@
 window.addEventListener("load", function () {
-
   const museumVisitorsCtx = document.getElementById("museumVisitorsChart");
   const onboardingStatusCtx = document.getElementById("onboardingStatusChart");
   const enrollmentCtx = document.getElementById("enrollmentChart");
   const movementTrendCtx = document.getElementById("movementTrendChart");
 
-  // Museum Visitors Chart
   new Chart(museumVisitorsCtx, {
     type: "bar",
     data: {
@@ -30,7 +28,6 @@ window.addEventListener("load", function () {
     }
   });
 
-  // Teacher Onboarding Doughnut
   new Chart(onboardingStatusCtx, {
     type: "doughnut",
     data: {
@@ -64,7 +61,6 @@ window.addEventListener("load", function () {
     }
   });
 
-  // NYC Enrollment Chart
   new Chart(enrollmentCtx, {
     type: "bar",
     data: {
@@ -89,11 +85,10 @@ window.addEventListener("load", function () {
     }
   });
 
-  // Student Mobility Trend (more realistic seasonal pattern)
   new Chart(movementTrendCtx, {
     type: "line",
     data: {
-      labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
       datasets: [{
         label: "Students Relocating",
         data: [420, 510, 650, 830, 1100, 1350, 1500, 1450, 980, 760, 600, 480],
@@ -121,5 +116,4 @@ window.addEventListener("load", function () {
       }
     }
   });
-
 });
