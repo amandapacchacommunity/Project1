@@ -35,3 +35,14 @@ Used for:
 
 Insight:
 NYC museums have higher total attendance compared to Chicago in the dataset.
+
+import matplotlib.pyplot as plt
+import pandas as pd
+
+df = pd.read_csv("museum_visitors_nyc_chicago_5y_30000.csv")
+
+visitors = df.groupby("city")["party_size"].sum()
+
+visitors.plot(kind="bar")
+plt.title("Museum Visitors by City")
+plt.show()
