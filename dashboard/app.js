@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 const museumVisitorsCtx = document.getElementById("museumVisitorsChart");
 const onboardingStatusCtx = document.getElementById("onboardingStatusChart");
 const enrollmentCtx = document.getElementById("enrollmentChart");
